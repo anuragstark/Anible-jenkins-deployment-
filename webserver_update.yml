@@ -1,0 +1,19 @@
+---
+- name: Upload new Code and Restart Server - httpd
+  hosts: all
+  become: true
+  vars:
+    app: httpd
+
+  tasks:
+    - name: Place Custom HTML file
+      copy:
+        src: /var/lib/jenkins/workspace/webserver-update/index.html
+        dest: /var/www/html/index.html
+
+    - name: Restart or start the service
+      service:
+        name: "{{ app }}"
+        state: restarted
+        enabled: yes
+
